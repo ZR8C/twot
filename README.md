@@ -2,7 +2,7 @@
 A personal project for automatically grabbing latest tweets. Currently employs screen scraping to fetch latest tweets from users and search terms. There is both a multiplatform desktop client and an android client.
 
 ## Development
-This project is largely unfinished and is probably full of bugs. I intend for this program to only be used by myself. If you are interested in basic screen scraping for twitter then check out com/twot/core/providers/JsoupProvider.kt
+This project is largely unfinished and is probably full of bugs. I intend for this program to only be used by myself. If you are interested in basic screen scraping for twitter then check out (https://github.com/ZR8C/twot/blob/master/core/src/main/kotlin/com/twot/core/providers/JsoupProvider.kt)
 
 ## Screenshots
 
