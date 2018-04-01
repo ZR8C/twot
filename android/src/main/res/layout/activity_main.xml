@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/drawer_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:fitsSystemWindows="true">
+    <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+        <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tweetRecycler"
+              />
+    </FrameLayout>
+
+
+    <LinearLayout
+            android:id="@+id/users_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|start"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+        <Button
+                android:text="Add User"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_user_btn"
+                android:drawableLeft="@android:drawable/ic_menu_add"
+            />
+        <Button
+                android:text="Add Term"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_term_btn"
+                android:drawableLeft="@android:drawable/ic_menu_add"
+                />
+        <Button
+                android:text="@string/refreshRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/change_refresh_btn"
+                android:drawableLeft="@android:drawable/ic_menu_edit"
+                />
+
+        <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/sourceRecycler"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

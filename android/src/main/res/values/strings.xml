@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="refreshRate">Change refresh rate\n(%d seconds)</string>
+</resources>

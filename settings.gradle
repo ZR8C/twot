@@ -1,0 +1,5 @@
+rootProject.name = 'twot'
+include ':android'
+include ':desktop'
+include ':core'
+
