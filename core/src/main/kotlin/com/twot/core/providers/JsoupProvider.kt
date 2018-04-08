@@ -37,19 +37,33 @@ class JsoupProvider : TweetProvider() {
         return parseMobileResponse(source, document)
     }
 
-    private fun parseMobileResponse(source: TweetSource, document: Document) = document.select("table.tweet").map{
-        item ->
+    private fun parseMobileResponse(source: TweetSource, document: Document): List<TweetEntity> {
+        // select all tweets - these can potentially be linked tweets, and so not always from the original source we wanted
+        return document.select("table.tweet").map{ tweet ->
 
-        TweetEntity().apply {
-            viewed = false
+            //create the tweet entity and set metadata
+            TweetEntity().apply {
+                viewed = false
+                tweetSource = source
 
-            val snowflake = item.select("div.tweet-text").attr("data-id")
-            pubDate = snowflake.snowFlakeDate()
-            content = item.select("div.dir-ltr").text()
-            creator = item.select("div.username").text()
-            tweetSource = source
-            link = "https://twitter.com${item.attr("href")}"
-            imageUrl = item.select("td.avatar").select("img").attr("src")
+                //grab the snowflake ID
+                val snowflake = tweet.select("div.tweet-text").attr("data-id")
+
+                //parse the date from snowflake ID
+                pubDate = snowflake.snowFlakeDate()
+
+                //grab the creator, note this also usually includes info on replying
+                creator = tweet.select("div.username").text()
+
+                //get main tweet text
+                content = tweet.select("div.dir-ltr").text()
+
+                //grab the link to the tweet
+                link = "https://twitter.com${tweet.attr("href")}"
+
+                //grab the image url, usually profile image of the tweet source
+                imageUrl = tweet.select("td.avatar").select("img").attr("src")
+            }
         }
     }
 
