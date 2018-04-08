@@ -12,6 +12,7 @@ import com.twot.R
 import com.twot.core.models.Models
 import com.twot.core.models.Tweet
 import com.twot.core.models.TweetSource
+import com.twot.core.models.TweetSourceType
 import io.requery.Persistable
 import io.requery.android.QueryRecyclerAdapter
 import io.requery.kotlin.desc
@@ -29,9 +30,14 @@ class TweetQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>,
 
     override fun onBindViewHolder(tweet: Tweet, holder: TweetHolder, index: Int) {
         holder.tweetContent.text = tweet.content
-        holder.tweetTitle.text = tweet.creator
+        holder.tweetTitle.text = context.getString(R.string.tweetTitle, tweet.creator)
 
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss") //todo refactor
+        when (tweet.tweetSource.type) {
+            TweetSourceType.ACCOUNT -> holder.tweetSource.text = "@" + tweet.tweetSource.title
+            TweetSourceType.SEARCH_TERM -> holder.tweetSource.text = "#" + tweet.tweetSource.title
+        }
+
+        val formatter = SimpleDateFormat("h:mm a - d MMM yyyy") //todo refactor
         val dateString = formatter.format(tweet.pubDate)
 
         holder.tweetDate?.text = dateString
@@ -49,6 +55,7 @@ class TweetQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>,
 
     class TweetHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tweetContent = itemView.findViewById<TextView>(R.id.tweetContent)
+        val tweetSource = itemView.findViewById<TextView>(R.id.tweetSource)
         val tweetTitle = itemView.findViewById<TextView>(R.id.tweetTitle)
         val tweetDate = itemView.findViewById<TextView>(R.id.tweetDate)
     }
