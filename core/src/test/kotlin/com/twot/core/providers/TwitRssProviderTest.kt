@@ -18,7 +18,6 @@ class TwitRssProviderTest {
 
         with (tweet) {
             org.junit.Assert.assertTrue(content.isNotBlank())
-            org.junit.Assert.assertTrue(pubDate != java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(com.twot.core.providers.TWITTER_EPOCH), java.time.ZoneOffset.UTC))
             org.junit.Assert.assertFalse(viewed)
             org.junit.Assert.assertTrue(creator.isNotBlank())
             org.junit.Assert.assertTrue(tweetSource.title == "hhariri")
@@ -37,7 +36,6 @@ class TwitRssProviderTest {
 
         with (tweet) {
             org.junit.Assert.assertTrue(content.isNotBlank())
-            org.junit.Assert.assertTrue(pubDate != java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(com.twot.core.providers.TWITTER_EPOCH), java.time.ZoneOffset.UTC))
             org.junit.Assert.assertFalse(viewed)
             org.junit.Assert.assertTrue(creator.isNotBlank())
             org.junit.Assert.assertTrue(tweetSource.title == "london")

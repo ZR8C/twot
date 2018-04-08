@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.twot.MainActivity
 import com.twot.R
-import com.twot.core.models.Models
-import com.twot.core.models.Tweet
-import com.twot.core.models.TweetSource
-import com.twot.core.models.TweetSourceType
+import com.twot.core.models.*
 import io.requery.Persistable
 import io.requery.android.QueryRecyclerAdapter
 import io.requery.kotlin.desc
@@ -31,17 +28,14 @@ class TweetQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>,
     override fun onBindViewHolder(tweet: Tweet, holder: TweetHolder, index: Int) {
         holder.tweetContent.text = tweet.content
         holder.tweetTitle.text = context.getString(R.string.tweetTitle, tweet.creator)
+        holder.tweetDate?.text = tweet.pubDate.tweetFormat()
 
         when (tweet.tweetSource.type) {
             TweetSourceType.ACCOUNT -> holder.tweetSource.text = "@" + tweet.tweetSource.title
             TweetSourceType.SEARCH_TERM -> holder.tweetSource.text = "#" + tweet.tweetSource.title
         }
 
-        val formatter = SimpleDateFormat("h:mm a - d MMM yyyy") //todo refactor
-        val dateString = formatter.format(tweet.pubDate)
-
-        holder.tweetDate?.text = dateString
-
+        //long click should open the tweet in browser
         holder.itemView.setOnLongClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(tweet.link))
             context.startActivity(browserIntent)

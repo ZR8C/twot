@@ -2,6 +2,7 @@ package com.twot.desktop.views
 
 import com.twot.core.models.Tweet
 import com.twot.core.models.TweetSourceType
+import com.twot.core.models.tweetFormat
 import com.twot.desktop.controllers.TwotController
 import javafx.geometry.Pos
 import javafx.scene.layout.*
@@ -28,7 +29,7 @@ class TweetModel : ItemViewModel<Tweet>() {
     val tweetController: TwotController by inject()
 
     val pubDateFormatted = bind {
-        item?.pubDate?.toFormattedString().toProperty()
+        item?.pubDate?.tweetFormat().toProperty()
     }
 
     val title = bind(Tweet::content)
@@ -50,11 +51,6 @@ class TweetModel : ItemViewModel<Tweet>() {
      val creator = bind(Tweet::creator)
 
     val image = bind { tweetController.getImage(item?.imageUrl).toProperty() }
-}
-
-fun Date.toFormattedString() : String {
-    val format = SimpleDateFormat("h:mm a - d MMM yyyy")
-    return format.format(this)
 }
 
 class TweetCellFragment : ListCellFragment<Tweet>() {

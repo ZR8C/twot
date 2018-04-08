@@ -1,12 +1,13 @@
 package com.twot.core.providers
 
 import com.twot.core.models.TweetSourceType
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.apache.commons.lang3.time.FastDateFormat
+import org.junit.Assert.*
 import org.junit.Test
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.util.*
 
 class JsoupProviderTest {
 
@@ -22,7 +23,6 @@ class JsoupProviderTest {
 
         with (tweet) {
             assertTrue(content.isNotBlank())
-            assertTrue(pubDate != LocalDateTime.ofInstant(Instant.ofEpochMilli(TWITTER_EPOCH), ZoneOffset.UTC))
             assertFalse(viewed)
             assertTrue(creator.isNotBlank())
             assertTrue(tweetSource.title == "hhariri")
@@ -41,7 +41,6 @@ class JsoupProviderTest {
 
         with (tweet) {
             assertTrue(content.isNotBlank())
-            assertTrue(pubDate != LocalDateTime.ofInstant(Instant.ofEpochMilli(TWITTER_EPOCH), ZoneOffset.UTC))
             assertFalse(viewed)
             assertTrue(creator.isNotBlank())
             assertTrue(tweetSource.title == "london")
@@ -49,4 +48,5 @@ class JsoupProviderTest {
             assertTrue(link.startsWith("https://twitter.com"))
         }
     }
+
 }
