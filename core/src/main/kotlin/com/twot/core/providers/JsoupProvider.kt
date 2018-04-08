@@ -18,6 +18,7 @@ class JsoupProvider : TweetProvider() {
                 .get()
 
         if (source.imageUrl.isNullOrBlank()) {
+            //if we don't have an image url for the source then grab it now
             val avatar = document.select("td.avatar")
             val img = avatar.select("img")
             val imgUrl = img.attr("src")
