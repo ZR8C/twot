@@ -21,6 +21,8 @@ import com.twot.core.models.*
 import com.twot.fragments.AddTermDialog
 import com.twot.fragments.AddUserDialog
 import com.twot.fragments.ChangeRefreshDialog
+import com.twot.views.SourceQueryRecycleAdapter
+import com.twot.views.TweetQueryRecycleAdapter
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -170,113 +172,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-}
-
-class TweetQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>, val context: MainActivity) : QueryRecyclerAdapter<Tweet, TweetQueryRecycleAdapter.TweetHolder>(Models.DEFAULT, Tweet::class.java) {
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, index: Int): TweetHolder {
-        val v = LayoutInflater.from(viewGroup.context).inflate(tweet_layout, viewGroup, false)
-        return TweetQueryRecycleAdapter.TweetHolder(v)
-    }
-
-    override fun onBindViewHolder(tweet: Tweet, holder: TweetHolder, index: Int) {
-        holder.tweetContent.text = tweet.content
-        holder.tweetTitle.text = tweet.creator
-
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss") //todo refactor
-        val dateString = formatter.format(tweet.pubDate)
-
-        holder.tweetDate?.text = dateString
-
-        holder.itemView.setOnLongClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(tweet.link))
-            context.startActivity(browserIntent)
-            true
-        }
-    }
-
-    override fun performQuery(): Result<Tweet> {
-        return data.select(Tweet::class).join(TweetSource::class).on(Tweet::tweetSource eq TweetSource::title).where(TweetSource::enabled eq true).orderBy(Tweet::pubDate.desc()).get()
-    }
-
-    class TweetHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tweetContent = itemView.findViewById<TextView>(R.id.tweetContent)
-        val tweetTitle = itemView.findViewById<TextView>(R.id.tweetTitle)
-        val tweetDate = itemView.findViewById<TextView>(R.id.tweetDate)
-    }
-}
-
-class SourceQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>, val context: MainActivity) : QueryRecyclerAdapter<TweetSource, SourceQueryRecycleAdapter.SourceHolder>(Models.DEFAULT, TweetSource::class.java) {
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, index: Int): SourceHolder {
-        val v = LayoutInflater.from(viewGroup.context).inflate(source_layout, viewGroup, false)
-
-        return SourceQueryRecycleAdapter.SourceHolder(v)
-    }
-
-    override fun onBindViewHolder(source: TweetSource, holder: SourceHolder, index: Int) {
-        holder.title.text = when(source.type) {
-            TweetSourceType.ACCOUNT -> "@${source.title}"
-            TweetSourceType.SEARCH_TERM -> "#${source.title}"
-        }
-
-        if (!source.enabled)
-            holder.title.alpha = 0.5f
-        else
-            holder.title.alpha = 1f
-
-        holder.itemView.setOnClickListener {
-            println("$source was clicked")
-
-            val popupMenu = PopupMenu(context, holder.itemView)
-            popupMenu.inflate(R.menu.source_popup)
-            popupMenu.show()
-
-            val toggleRefresh = popupMenu.menu.findItem(toggle_refresh)
-
-            if (source.enabled)
-                toggleRefresh.title = "Disable"
-            else
-                toggleRefresh.title = "Enable"
-
-            popupMenu.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    delete_source -> {
-                        AlertDialog.Builder(context)
-                                .setMessage("Are you sure you want to delete ${source.title}?")
-                                .setPositiveButton("Yes", { dialog,_ ->
-                                    data.delete(source).blockingGet()
-                                    dialog.dismiss()
-                                })
-                                .setNegativeButton("Cancel", { dialog,_ ->
-                                    dialog.cancel()
-                                }).show()
-                        true
-                    }
-                    refresh_source -> {
-                        Observable.fromCallable {
-                            context.coreController.getLatestTweets(source)
-                        }
-                                .subscribeOn(Schedulers.io())
-                                .subscribe()
-                        true
-                    }
-                    toggle_refresh -> {
-                        source.enabled = !source.enabled
-                        data.update(source).blockingGet()
-                        true
-                    }
-                    else -> true
-                }
-            }
-        }
-    }
-
-    override fun performQuery(): Result<TweetSource> {
-        return (data select (TweetSource::class)).get()
-    }
-
-    class SourceHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.findViewById<TextView>(R.id.source_title)
-    }
 }
