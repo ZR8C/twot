@@ -38,25 +38,27 @@ class SourceQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>
         else
             holder.title.alpha = 1f
 
+        // regular click should toggle enabled
         holder.itemView.setOnClickListener {
-            println("$source was clicked")
+            println("$source was long clicked")
+
+            source.enabled = !source.enabled
+            data.update(source).blockingGet()
+        }
+
+        // long click should give context menu
+        holder.itemView.setOnLongClickListener {
+            println("$source was long clicked")
 
             val popupMenu = PopupMenu(context, holder.itemView)
             popupMenu.inflate(R.menu.source_popup)
             popupMenu.show()
 
-            val toggleRefresh = popupMenu.menu.findItem(R.id.toggle_refresh)
-
-            if (source.enabled)
-                toggleRefresh.title = "Disable"
-            else
-                toggleRefresh.title = "Enable"
-
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.delete_source -> {
                         AlertDialog.Builder(context)
-                                .setMessage("Are you sure you want to delete ${source.title}?")
+                                .setMessage("Are you sure you want to delete ${holder.title.text}?")
                                 .setPositiveButton("Yes", { dialog,_ ->
                                     data.delete(source).blockingGet()
                                     dialog.dismiss()
@@ -74,14 +76,11 @@ class SourceQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>
                                 .subscribe()
                         true
                     }
-                    R.id.toggle_refresh -> {
-                        source.enabled = !source.enabled
-                        data.update(source).blockingGet()
-                        true
-                    }
                     else -> true
                 }
             }
+
+            true
         }
     }
 
