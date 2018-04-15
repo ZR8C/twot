@@ -7,8 +7,8 @@ This project is largely unfinished and is probably full of bugs. I intend for th
 ## Screenshots
 
 ![desktop](https://i.imgur.com/kSy602I.png)
-![android](https://i.imgur.com/uWwGJae.png)
-![android](https://i.imgur.com/kPOn4G9.png)
+
+<img src="https://i.imgur.com/uWwGJae.png" width="30%" height="30%"> <img src="https://i.imgur.com/kPOn4G9.png" width="30%" height="30%">
 
 ## Stack
 This project is written in Kotlin.
