@@ -25,28 +25,35 @@
             android:layout_height="match_parent"
             android:layout_gravity="left|start"
             android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:padding="6dp">
 
         <Button
                 android:text="Add User"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/add_user_btn"
-                android:drawableLeft="@android:drawable/ic_menu_add"
+                android:drawableLeft="@drawable/icons8plusmath24"
+                android:drawablePadding="4dp"
+                android:background="@android:color/transparent"
             />
         <Button
                 android:text="Add Term"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/add_term_btn"
-                android:drawableLeft="@android:drawable/ic_menu_add"
+                android:drawableLeft="@drawable/icons8search24"
+                android:drawablePadding="4dp"
+                android:background="@android:color/transparent"
                 />
         <Button
                 android:text="@string/refreshRate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/change_refresh_btn"
-                android:drawableLeft="@android:drawable/ic_menu_edit"
+                android:drawableLeft="@drawable/icons8synchronize24"
+                android:drawablePadding="4dp"
+                android:background="@android:color/transparent"
                 />
 
         <android.support.v7.widget.RecyclerView

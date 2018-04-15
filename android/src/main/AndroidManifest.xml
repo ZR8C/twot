@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application android:label="Twot"
-                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:icon="@drawable/icons8twitter512">
         <activity
                 android:name=".MainActivity"
                 android:label="Twot">

@@ -4,8 +4,6 @@
     <item android:id="@+id/refresh_source"
           android:icon="@android:drawable/ic_menu_revert"
           android:title="Refresh" />
-    <item android:id="@+id/toggle_refresh"
-          android:title="Disable" />
     <item android:id="@+id/delete_source"
           android:icon="@android:drawable/ic_menu_delete"
           android:title="Delete" />
