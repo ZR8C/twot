@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
@@ -9,10 +10,19 @@
               android:clickable="true"
               android:background="?android:attr/selectableItemBackground">
 
-    <LinearLayout
-            android:orientation="horizontal"
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/icons8twitter64"
+                android:id="@+id/sourceIcon"
+                android:layout_gravity="start"
+                android:padding="2dp"
+                />
 
         <TextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -20,28 +30,31 @@
                 android:id="@+id/tweetSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.93"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/sourceIcon"/>
 
+        <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:text="@string/tweetTitle"
+                android:id="@+id/tweetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tweetSource"
+                android:layout_toRightOf="@id/sourceIcon"/>
 
         <TextView
                 android:text="2018-01-01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tweetDate"
-                android:layout_weight="1"
                 android:textAlignment="textEnd"
-                android:gravity="end"/>
-    </LinearLayout>
+                android:gravity="end"
+                android:layout_alignParentRight="true"
+                />
+    </RelativeLayout>
 
-    <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:text="@string/tweetTitle"
-            android:id="@+id/tweetTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.93"/>
+
 
     <TextView
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"

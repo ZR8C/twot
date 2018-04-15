@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 import com.twot.MainActivity
 import com.twot.R
 import com.twot.core.models.*
@@ -30,6 +32,8 @@ class TweetQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>,
         holder.tweetTitle.text = context.getString(R.string.tweetTitle, tweet.creator)
         holder.tweetDate?.text = tweet.pubDate.tweetFormat()
 
+        Picasso.get().load(tweet.imageUrl).resize(120,120).into(holder.sourceIcon)
+
         when (tweet.tweetSource.type) {
             TweetSourceType.ACCOUNT -> holder.tweetSource.text = "@" + tweet.tweetSource.title
             TweetSourceType.SEARCH_TERM -> holder.tweetSource.text = "#" + tweet.tweetSource.title
@@ -52,5 +56,6 @@ class TweetQueryRecycleAdapter(val data: KotlinReactiveEntityStore<Persistable>,
         val tweetSource = itemView.findViewById<TextView>(R.id.tweetSource)
         val tweetTitle = itemView.findViewById<TextView>(R.id.tweetTitle)
         val tweetDate = itemView.findViewById<TextView>(R.id.tweetDate)
+        val sourceIcon = itemView.findViewById<ImageView>(R.id.sourceIcon)
     }
 }
